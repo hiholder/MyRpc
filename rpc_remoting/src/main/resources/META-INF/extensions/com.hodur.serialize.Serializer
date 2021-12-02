@@ -1,0 +1,1 @@
+kryo=com.hodur.serialize.kryo.KryoSerializer

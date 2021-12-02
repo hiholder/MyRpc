@@ -1,0 +1,2 @@
+zk=com.hodur.registry.zk.ZkServiceRegistry
+na=com.hodur.registry.na.NaServiceRegistry
