@@ -1,5 +1,7 @@
 package com.hodur.registry.api;
 
-public interface Registry extends RegistryService{
+import com.hodur.Node;
+
+public interface Registry extends RegistryService, Node {
 
 }

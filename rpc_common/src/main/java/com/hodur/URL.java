@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Hodur
@@ -19,9 +20,13 @@ import java.util.*;
 @Setter
 public class URL {
     private String version;//版本
+
     private String group;//当接口类很多时，按照组号区分
+
     private String serviceName;//服务名
+
     private String protocol;
+
     private String path;
     // by default, host to registry
     private final String host;
@@ -31,9 +36,14 @@ public class URL {
     private final Map<String, String> parameters;
 
     // ===== cache =====
+
+    private volatile transient Map<String, Number> numbers;
+
     private volatile transient String string;
 
     private volatile transient String ip;
+
+
 
     protected URL() {
         this.protocol = null;
@@ -105,6 +115,20 @@ public class URL {
             return defaultValue;
         }
         return Boolean.parseBoolean(value);
+    }
+
+    public int getParameter(String key, int defaultValue) {
+        Number n = getNumbers().get(key);
+        if (n != null) {
+            return n.intValue();
+        }
+        String value = getParameter(key);
+        if (value == null || value.length() == 0) {
+            return defaultValue;
+        }
+        int i = Integer.parseInt(value);
+        getNumbers().put(key, i);
+        return i;
     }
 
     public String getAddress() {
@@ -257,4 +281,13 @@ public class URL {
             throw new RuntimeException(e.getMessage(), e);
         }
     }
+
+    private Map<String, Number> getNumbers() {
+        if (numbers == null) {
+            numbers = new ConcurrentHashMap<String, Number>();
+        }
+        return numbers;
+    }
+
+
 }

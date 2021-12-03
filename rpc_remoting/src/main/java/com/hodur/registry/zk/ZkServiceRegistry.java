@@ -166,4 +166,17 @@ public class ZkServiceRegistry extends FailbackRegistry   {
         return urls;
     }
 
+    @Override
+    public boolean isAvailable() {
+        return CuratorUtils.isConnected(zkClient);
+    }
+
+    public void destroy() {
+        super.destroy();
+        try {
+            zkClient.close();
+        } catch (Exception e) {
+            log.warn("Failed to close zookeeper client " + getUrl() + ", cause: " + e.getMessage(), e);
+        }
+    }
 }

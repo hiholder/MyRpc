@@ -16,7 +16,7 @@ import java.util.*;
  * @date 2021年11月28日 18:10
  */
 @Slf4j
-public class AbstractRegistry implements Registry {
+public abstract class AbstractRegistry implements Registry {
     // URL的地址分隔符，在缓存文件中使用，服务提供者的URL分隔
     private static final char URL_SEPARATOR = ' ';
     // URL地址分隔正则表达式，用于解析文件缓存中服务提供者URL列表
@@ -79,6 +79,7 @@ public class AbstractRegistry implements Registry {
             }
         }
     }
+
     public List<URL> getCacheUrls(URL url) {
         for (Map.Entry<Object, Object> entry : properties.entrySet()) {
             // key为某个分类，例如服务提供者分类
@@ -96,6 +97,12 @@ public class AbstractRegistry implements Registry {
         }
         return null;
     }
+    /**
+     * @describe 服务注册
+     * @author Hodur
+     * @date 2021/12/3 8:59
+     * @param url
+     */
     @Override
     public void register(URL url) {
         if (url == null) {
@@ -104,7 +111,12 @@ public class AbstractRegistry implements Registry {
         log.info("Register: "+url);
         registered.add(url);
     }
-
+    /**
+     * @describe 取消服务注册
+     * @author Hodur
+     * @date 2021/12/3 8:59
+     * @param url
+     */
     @Override
     public void unregister(URL url) {
         if (url == null) {
@@ -113,11 +125,67 @@ public class AbstractRegistry implements Registry {
         log.info("Unregister: "+url);
         registered.remove(url);
     }
-
+    /**
+     * @describe 服务发现
+     * @author Hodur
+     * @date 2021/12/3 8:59
+     * @param url
+     * @return java.util.List<com.hodur.URL>
+     */
     @Override
     public List<URL> lookup(URL url) {
 
         return null;
     }
 
+    /**
+     * @describe 注册中心连接断开后恢复
+     * @author Hodur
+     * @date 2021/12/3 9:01
+     */
+    protected void recover() {
+        // register
+        // 通过缓存中的registered中的内容重新注册
+        Set<URL> recoverRegistered = new HashSet<>(getRegistered());
+        if (!recoverRegistered.isEmpty()) {
+            log.info("Recover register url" + recoverRegistered);
+            for (URL url : recoverRegistered) {
+                register(url);
+            }
+        }
+
+    }
+
+    @Override
+    public URL getUrl() {
+        return registryUrl;
+    }
+
+    /**
+     * @describe 当JVM关闭时，取消注册
+     * @author Hodur
+     * @date 2021/12/3 10:28
+     */
+    @Override
+    public void destroy() {
+        log.info("Destroy registry: " + getUrl());
+        Set<URL> destroyRegistered = new HashSet<URL>(getRegistered());
+        if (!destroyRegistered.isEmpty()) {
+            for (URL url : destroyRegistered) {
+                if (url.getParameter(Constants.DYNAMIC_KEY, true)) {
+                    try {
+                        unregister(url);
+                        log.info("Destroy unregister url " + url);
+                    } catch (Throwable t) {
+                        log.warn("Failed to unregister url " + url + "to registry " + getUrl() + "on destroy, cause: " + t.getMessage(), t);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getUrl().toString();
+    }
 }

@@ -44,4 +44,10 @@ public class Constants {
 
     public static final String CLASSIFIER_KEY = "classifier";
 
+    public static final int DEFAULT_REGISTRY_RETRY_PERIOD = 5 * 1000;
+    // 注册中心恢复的间隔时间
+    public static final String REGISTRY_RETRY_PERIOD_KEY = "retry.period";
+
+    // 有时候希望人工管理服务提供者的上线和下线，此时需将注册中心标识为非动态管理模式。
+    public static final String DYNAMIC_KEY = "dynamic";
 }

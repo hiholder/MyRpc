@@ -185,4 +185,11 @@ public class CuratorUtils {
         pathChildrenCache.getListenable().addListener(pathChildrenCacheListener);
         pathChildrenCache.start();
     }
+
+    public static boolean isConnected(CuratorFramework zkClient) {
+        if (zkClient == null) {
+            return false;
+        }
+        return zkClient.getZookeeperClient().isConnected();
+    }
 }
