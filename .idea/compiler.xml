@@ -8,10 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="hello-service-api" />
+        <module name="rpc_call" />
         <module name="test-client" />
+        <module name="rpc_remote" />
         <module name="rpc_common" />
         <module name="test-server" />
-        <module name="rpc_remoting" />
       </profile>
     </annotationProcessing>
   </component>

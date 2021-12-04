@@ -1,0 +1,2 @@
+zk=com.hodur.remote.registry.zk.ZkServiceDiscovery
+na=com.hodur.remote.registry.na.NaServiceDiscovery

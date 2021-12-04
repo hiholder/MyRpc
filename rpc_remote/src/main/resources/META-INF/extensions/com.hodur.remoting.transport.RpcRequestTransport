@@ -1,0 +1,1 @@
+netty=com.hodur.remote.remoting.transport.netty.client.NettyRpcClient

@@ -1,5 +1,6 @@
 package com.hodur;
 
+import com.hodur.common.URL;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

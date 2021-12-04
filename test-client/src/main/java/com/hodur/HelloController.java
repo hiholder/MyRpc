@@ -1,6 +1,6 @@
 package com.hodur;
 
-import com.hodur.annotation.RpcReference;
+import com.hodur.remote.annotation.RpcReference;
 import org.springframework.stereotype.Component;
 
 /**

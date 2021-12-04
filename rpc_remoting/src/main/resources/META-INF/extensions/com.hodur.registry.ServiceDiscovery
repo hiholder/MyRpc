@@ -1,2 +1,0 @@
-zk=com.hodur.registry.zk.ZkServiceDiscovery
-na=com.hodur.registry.na.NaServiceDiscovery

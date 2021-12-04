@@ -1,7 +1,7 @@
 import com.hodur.HelloService;
-import com.hodur.annotation.RpcScan;
-import com.hodur.URL;
-import com.hodur.remoting.transport.netty.server.NettyRpcServer;
+import com.hodur.common.URL;
+import com.hodur.remote.annotation.RpcScan;
+import com.hodur.remote.remoting.transport.netty.server.NettyRpcServer;
 import com.hodur.serviceimpl.HelloServiceImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -19,8 +19,7 @@ public class NettyServerMain {
         NettyRpcServer nettyRpcServer = (NettyRpcServer) applicationContext.getBean("nettyRpcServer");
         // Register service manually
         HelloService helloService2 = new HelloServiceImpl();
-        URL url = URL.builder()
-                .group("test1").version("version1").build();
+        URL url = new URL("test1", "version1");
         nettyRpcServer.registerService(helloService2, url);
         nettyRpcServer.start();
     }

@@ -1,6 +1,6 @@
 package com.hodur;
 
-import com.hodur.annotation.RpcScan;
+import com.hodur.remote.annotation.RpcScan;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**

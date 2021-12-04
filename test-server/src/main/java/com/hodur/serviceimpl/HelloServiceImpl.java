@@ -2,7 +2,7 @@ package com.hodur.serviceimpl;
 
 import com.hodur.Hello;
 import com.hodur.HelloService;
-import com.hodur.annotation.RpcService;
+import com.hodur.remote.annotation.RpcService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
